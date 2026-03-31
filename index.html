@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>SeekFlix</title>
+  <link rel="icon" href="assets/seekflix-icon.png" type="image/png">
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=DM+Sans:wght@400;600&display=swap"
+    rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+
+<body>
+
+  <header class="header">
+    <div class="logo" id="logo">
+      <img src="assets/seekflix-logotipo.png" alt="Seekflix Logotipo">
+    </div>
+  </header>
+
+  <!-- Tela inicial: visível ao carregar a página -->
+  <section id="telaInicial">
+    <div class="hero">
+      <h1 class="titulo">Encontre seu próximo <span class="destaque">filme favorito</span></h1>
+      <p class="subtitulo">Digite o nome de um filme ou série para começar</p>
+
+      <div class="caixa-busca">
+        <input type="text" id="campoBusca" placeholder="Ex: Friends, Harry Potter..." autocomplete="off" />
+
+        <!-- data-tipo é lido pelo JS para definir o endpoint da busca -->
+        <div class="filtros">
+          <button class="btn-filtro ativo" data-tipo="multi">Todos</button>
+          <button class="btn-filtro" data-tipo="movie">Filmes</button>
+          <button class="btn-filtro" data-tipo="tv">Séries</button>
+        </div>
+
+        <button class="btn-buscar" id="btnBuscar">Buscar</button>
+      </div>
+
+      <!-- Preenchido dinamicamente com o histórico salvo no localStorage -->
+      <div id="buscasRecentes"></div>
+    </div>
+  </section>
+
+  <!-- Tela de resultados: oculta por padrão, exibida após a busca -->
+  <section id="telaResultados" class="escondido">
+
+    <div class="barra-resultados">
+      <div class="caixa-busca caixa-compacta">
+        <input type="text" id="campoBuscaResultados" placeholder="Buscar novamente..." />
+        <button class="btn-buscar btn-pequeno" id="btnBuscarResultados">Buscar</button>
+      </div>
+
+      <div class="filtros" id="filtrosResultados">
+        <button class="btn-filtro ativo" data-tipo="multi">Todos</button>
+        <button class="btn-filtro" data-tipo="movie">Filmes</button>
+        <button class="btn-filtro" data-tipo="tv">Séries</button>
+      </div>
+    </div>
+
+    <h2 class="titulo-resultados">Resultados para: <span id="termoBuscado"></span></h2>
+
+    <!-- Estados de UI: apenas um visível por vez, alternados pelo JS -->
+    <div id="loading" class="escondido estado-mensagem">
+      <div class="spinner"></div>
+      <p>Buscando...</p>
+    </div>
+
+    <div id="erro" class="escondido estado-mensagem">
+      <p>⚠️ <span id="mensagemErro">Algo deu errado.</span></p>
+      <button class="btn-buscar" id="btnTentarNovamente">Tentar novamente</button>
+    </div>
+
+    <div id="semResultados" class="escondido estado-mensagem">
+      <p>🔍 Nenhum resultado encontrado. Tente outro título.</p>
+    </div>
+
+    <!-- Grid populado dinamicamente pelo JavaScript -->
+    <div class="grade-resultados" id="gradeResultados"></div>
+  </section>
+
+  <!-- Modal de detalhes: conteúdo injetado via JS ao clicar em um card -->
+  <div id="modal" class="modal-fundo escondido">
+    <div class="modal-caixa">
+      <button id="fecharModal" class="btn-fechar">✕</button>
+      <div id="conteudoModal"></div>
+    </div>
+  </div>
+
+  <!-- Notificação temporária para feedback rápido ao usuário -->
+  <div id="toast" class="toast escondido"></div>
+
+  <script src="script.js"></script>
+</body>
+
+</html>

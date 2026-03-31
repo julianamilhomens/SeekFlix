@@ -1,0 +1,651 @@
+/* ================================
+   style.css — SeekFlix
+
+   1. Variáveis
+   2. Reset
+   3. Header
+   4. Tela inicial
+   5. Busca e filtros
+   6. Tela de resultados
+   7. Cards
+   8. Estados de UI
+   9. Modal
+   10. Toast
+   11. Animações
+   12. Responsividade
+================================ */
+
+
+/* ================================
+   1. VARIÁVEIS
+   Tokens de design centralizados.
+   Alterações aqui refletem globalmente.
+================================ */
+:root {
+  --cor-fundo: #0a0a0f;
+  --cor-superficie: #13131a;
+  --cor-borda: #2a2a3a;
+  --cor-destaque: #e50914;
+  --cor-texto: #f0f0f0;
+  --cor-texto-fraco: #8888a0;
+  --cor-ouro: #f5c518;
+
+  --fonte-titulo: 'Bebas Neue', sans-serif;
+  --fonte-corpo: 'DM Sans', sans-serif;
+
+  --borda-arredondada: 10px;
+  --transicao: 0.25s ease;
+}
+
+
+/* ================================
+   2. RESET
+   Normaliza o comportamento padrão
+   entre navegadores diferentes.
+================================ */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: var(--fonte-corpo);
+  background-color: var(--cor-fundo);
+  color: var(--cor-texto);
+  min-height: 100vh;
+}
+
+button {
+  font-family: var(--fonte-corpo);
+  cursor: pointer;
+  border: none;
+}
+
+img {
+  max-width: 100%;
+  display: block;
+}
+
+
+/* ================================
+   3. HEADER
+   Fixo no topo com z-index elevado
+   para sobrepor o conteúdo ao rolar.
+================================ */
+.header {
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  display: flex;
+  align-items: center;
+  padding: 16px 40px;
+  background-color: rgba(10, 10, 15, 0.9);
+  border-bottom: 1px solid var(--cor-borda);
+}
+
+
+.logo img {
+  height: 55px; 
+  object-fit: contain;
+  cursor: pointer;
+}
+
+
+
+/* ================================
+   4. TELA INICIAL
+================================ */
+#telaInicial {
+  min-height: 100vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding-top: 80px; /* compensa a altura do header fixo */
+  padding-left: 20px;
+  padding-right: 20px;
+}
+
+.hero {
+  text-align: center;
+  max-width: 620px;
+  width: 100%;
+}
+
+.titulo {
+  font-family: var(--fonte-titulo);
+  font-size: 3.5rem;
+  letter-spacing: 2px;
+  line-height: 1.1;
+  margin-bottom: 12px;
+}
+
+.destaque {
+  color: var(--cor-destaque);
+}
+
+.subtitulo {
+  color: var(--cor-texto-fraco);
+  font-size: 1.1rem;
+  margin-bottom: 32px;
+}
+
+
+/* ================================
+   5. BUSCA E FILTROS
+================================ */
+.caixa-busca {
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--borda-arredondada);
+  padding: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 14px;
+}
+
+/* Destaca a borda quando qualquer input interno está em foco */
+.caixa-busca:focus-within {
+  border-color: var(--cor-destaque);
+}
+
+.caixa-busca input {
+  background: transparent;
+  border: none;
+  outline: none;
+  font-family: var(--fonte-corpo);
+  font-size: 1rem;
+  color: var(--cor-texto);
+  width: 100%;
+  padding: 4px 0;
+}
+
+.caixa-busca input::placeholder {
+  color: var(--cor-texto-fraco);
+}
+
+.filtros {
+  display: flex;
+  gap: 8px;
+}
+
+.btn-filtro {
+  flex: 1;
+  padding: 8px;
+  border-radius: 6px;
+  border: 1px solid var(--cor-borda);
+  background: transparent;
+  color: var(--cor-texto-fraco);
+  font-size: 0.9rem;
+  transition: all var(--transicao);
+}
+
+.btn-filtro:hover {
+  border-color: var(--cor-destaque);
+  color: var(--cor-texto);
+}
+
+/* Estado ativo do filtro selecionado */
+.btn-filtro.ativo {
+  background-color: var(--cor-destaque);
+  border-color: var(--cor-destaque);
+  color: white;
+}
+
+.btn-buscar {
+  background-color: var(--cor-destaque);
+  color: white;
+  padding: 14px;
+  border-radius: var(--borda-arredondada);
+  font-size: 1rem;
+  font-weight: 600;
+  transition: all var(--transicao);
+}
+
+.btn-buscar:hover {
+  opacity: 0.85;
+  transform: translateY(-2px);
+}
+
+.btn-pequeno {
+  padding: 8px 16px;
+  font-size: 0.9rem;
+}
+
+/* Layout horizontal para a barra de busca na tela de resultados */
+.caixa-compacta {
+  flex-direction: row;
+  align-items: center;
+  padding: 10px 14px;
+  flex: 1;
+}
+
+#buscasRecentes {
+  margin-top: 20px;
+}
+
+.label-recentes {
+  font-size: 0.8rem;
+  color: var(--cor-texto-fraco);
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.lista-recentes {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+  justify-content: center;
+}
+
+.tag-recente {
+  padding: 4px 14px;
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 100px;
+  font-size: 0.85rem;
+  color: var(--cor-texto-fraco);
+  cursor: pointer;
+  transition: all var(--transicao);
+}
+
+.tag-recente:hover {
+  border-color: var(--cor-destaque);
+  color: var(--cor-texto);
+}
+
+
+/* ================================
+   6. TELA DE RESULTADOS
+================================ */
+#telaResultados {
+  padding-top: 90px;
+  padding-left: 40px;
+  padding-right: 40px;
+  padding-bottom: 60px;
+  max-width: 1300px;
+  margin: 0 auto;
+}
+
+.barra-resultados {
+  display: flex;
+  gap: 16px;
+  align-items: center;
+  margin-bottom: 24px;
+  flex-wrap: wrap;
+}
+
+.titulo-resultados {
+  font-family: var(--fonte-titulo);
+  font-size: 2rem;
+  letter-spacing: 1px;
+  margin-bottom: 24px;
+}
+
+.titulo-resultados span {
+  color: var(--cor-destaque);
+}
+
+/*
+  auto-fill cria o máximo de colunas possível no espaço disponível.
+  minmax garante que cada coluna tenha entre 180px e 1 fração igual.
+  Resultado: grid responsivo sem media queries adicionais.
+*/
+.grade-resultados {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(180px, 1fr));
+  gap: 20px;
+}
+
+
+/* ================================
+   7. CARDS
+================================ */
+.card {
+  background-color: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: var(--borda-arredondada);
+  overflow: hidden;
+  cursor: pointer;
+  transition: all var(--transicao);
+  animation: subirApparecer 0.3s ease both;
+}
+
+.card:hover {
+  border-color: var(--cor-destaque);
+  transform: translateY(-5px);
+}
+
+.card-imagem {
+  width: 100%;
+  height: 270px;
+  overflow: hidden;
+  position: relative;
+}
+
+.card-imagem img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  transition: transform 0.4s ease;
+}
+
+.card:hover .card-imagem img {
+  transform: scale(1.06);
+}
+
+.sem-poster {
+  width: 100%;
+  height: 100%;
+  background-color: #1c1c27;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 3rem;
+}
+
+/* Badges posicionados sobre a imagem com position absolute */
+.card-nota {
+  position: absolute;
+  top: 8px;
+  right: 8px;
+  background: rgba(0,0,0,0.8);
+  color: var(--cor-ouro);
+  font-size: 0.8rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 100px;
+}
+
+.card-tipo {
+  position: absolute;
+  top: 8px;
+  left: 8px;
+  background: var(--cor-destaque);
+  color: white;
+  font-size: 0.7rem;
+  font-weight: 600;
+  padding: 2px 8px;
+  border-radius: 100px;
+  text-transform: uppercase;
+}
+
+.card-info {
+  padding: 14px;
+}
+
+.card-titulo {
+  font-size: 0.95rem;
+  font-weight: 600;
+  margin-bottom: 4px;
+  /* Trunca o texto em 2 linhas com reticências */
+  display: -webkit-box;
+  -webkit-line-clamp: 2;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+
+.card-ano {
+  font-size: 0.8rem;
+  color: var(--cor-texto-fraco);
+}
+
+
+/* ================================
+   8. ESTADOS DE UI
+================================ */
+
+/* Utilitário para ocultar elementos — alternado via classList no JS */
+.escondido {
+  display: none !important;
+}
+
+.estado-mensagem {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 16px;
+  padding: 60px 20px;
+  text-align: center;
+  color: var(--cor-texto-fraco);
+}
+
+/* border-top colorida cria o efeito de arco giratório */
+.spinner {
+  width: 44px;
+  height: 44px;
+  border: 3px solid var(--cor-borda);
+  border-top-color: var(--cor-destaque);
+  border-radius: 50%;
+  animation: girar 0.8s linear infinite;
+}
+
+
+/* ================================
+   9. MODAL
+================================ */
+
+/* Overlay fixo que cobre toda a viewport */
+.modal-fundo {
+  position: fixed;
+  inset: 0;
+  background: rgba(0, 0, 0, 0.85);
+  z-index: 200;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+}
+
+.modal-caixa {
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  border-radius: 16px;
+  max-width: 600px;
+  width: 100%;
+  max-height: 90vh;
+  overflow-y: auto;
+  position: relative;
+  animation: aparecer 0.25s ease;
+}
+
+.btn-fechar {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: rgba(0,0,0,0.6);
+  color: var(--cor-texto);
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  font-size: 0.9rem;
+  z-index: 10;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: background var(--transicao);
+}
+
+.btn-fechar:hover {
+  background: var(--cor-destaque);
+}
+
+.modal-banner {
+  width: 100%;
+  height: 220px;
+  object-fit: cover;
+  border-radius: 16px 16px 0 0;
+}
+
+.modal-sem-banner {
+  width: 100%;
+  height: 180px;
+  background: #1c1c27;
+  border-radius: 16px 16px 0 0;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 4rem;
+}
+
+.modal-corpo {
+  padding: 24px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+}
+
+.modal-linha-topo {
+  display: flex;
+  gap: 20px;
+  align-items: flex-start;
+}
+
+/* margin-top negativo faz o poster "flutuar" sobre o banner */
+.modal-poster {
+  width: 110px;
+  flex-shrink: 0;
+  border-radius: 8px;
+  overflow: hidden;
+  margin-top: -50px;
+  border: 2px solid var(--cor-borda);
+}
+
+.modal-sem-poster {
+  width: 110px;
+  height: 165px;
+  background: #1c1c27;
+  flex-shrink: 0;
+  border-radius: 8px;
+  margin-top: -50px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  border: 2px solid var(--cor-borda);
+}
+
+.modal-titulo {
+  font-family: var(--fonte-titulo);
+  font-size: 1.8rem;
+  letter-spacing: 1px;
+  margin-bottom: 8px;
+}
+
+.modal-meta {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 12px;
+  font-size: 0.9rem;
+  color: var(--cor-texto-fraco);
+}
+
+.modal-nota {
+  color: var(--cor-ouro);
+  font-weight: 600;
+}
+
+.modal-sinopse {
+  line-height: 1.7;
+  color: var(--cor-texto-fraco);
+}
+
+.modal-subtitulo {
+  font-family: var(--fonte-titulo);
+  font-size: 1.1rem;
+  letter-spacing: 1px;
+  margin-bottom: 6px;
+}
+
+
+/* ================================
+   10. TOAST
+================================ */
+.toast {
+  position: fixed;
+  bottom: 32px;
+  left: 50%;
+  transform: translateX(-50%);
+  background: var(--cor-superficie);
+  border: 1px solid var(--cor-borda);
+  color: var(--cor-texto);
+  padding: 12px 28px;
+  border-radius: 100px;
+  font-size: 0.9rem;
+  z-index: 300;
+  white-space: nowrap;
+}
+
+
+/* ================================
+   11. ANIMAÇÕES
+================================ */
+@keyframes girar {
+  to { transform: rotate(360deg); }
+}
+
+@keyframes aparecer {
+  from {
+    opacity: 0;
+    transform: scale(0.95);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1);
+  }
+}
+
+/* Entrada dos cards com delay escalonado via JS */
+@keyframes subirApparecer {
+  from {
+    opacity: 0;
+    transform: translateY(16px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+
+/* ================================
+   12. RESPONSIVIDADE
+================================ */
+@media (max-width: 600px) {
+  .titulo {
+    font-size: 2.2rem;
+  }
+
+  #telaResultados {
+    padding-left: 16px;
+    padding-right: 16px;
+  }
+
+  .barra-resultados {
+    flex-direction: column;
+    align-items: stretch;
+  }
+
+  .grade-resultados {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 12px;
+  }
+
+  .modal-linha-topo {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
+  }
+
+  .modal-meta {
+    justify-content: center;
+  }
+
+  .modal-poster,
+  .modal-sem-poster {
+    margin-top: -40px;
+  }
+}
