@@ -12,7 +12,7 @@
 
 🔗 **[Ver projeto em produção](https://seekflix.netlify.app)** 
 
-[Português](#-português) • [English](#-english)
+[Português](#português) • [English](#english)
 
 ---
 <video src="https://github.com/user-attachments/assets/01f66bdf-e483-4fff-b28a-b28ab309aa66" alt="Demonstração do SeekFlix" width="500" />
